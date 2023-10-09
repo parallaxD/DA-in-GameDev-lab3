@@ -1,5 +1,5 @@
 
-Отчет по лабораторной работе #2 выполнил(а):
+Отчет по лабораторной работе #3 выполнил(а):
 - Куплевацкий Денис Игоревич
 - РИ220931
 
@@ -80,10 +80,11 @@ Cцены:
 **9)** Увеличение скорости дракона + увеличение гравитации + увеличение шанса сменить направление + Увеличение частоты сбрасывания яиц + 2 яйца + разница в абсциссе + яйца меньше + щит меньше + Щит не моментально принимает позицию мыши на экране.  
 **10)** Увеличение скорости дракона + увеличение гравитации + увеличение шанса сменить направление + Увеличение частоты сбрасывания яиц + 2 яйца + разница в абсциссе + яйца меньше + щит меньше + Щит не моментально принимает позицию мыши на экране + дракон меняет Y координату.  
 
+Как можно заметить, с каждым уровнем игра становится всё сложнее за счёт изменения параметров и добавления некоторых новых геймплейных элементов.
+
 
 **Визуализация данных в таблице**
 ![image](https://github.com/parallaxD/DA-in-GameDev-lab3/assets/81700733/8d9c9f4e-a03b-4a67-94bd-658b7d9d9841)
-
 
 
 
@@ -92,119 +93,20 @@ Cцены:
 
 Были сделаны 10 сцены проекта, в каждой из которых используются разные значения параметров.
 
+Сцена 3: ![image](https://github.com/parallaxD/DA-in-GameDev-lab3/assets/81700733/2354459e-ac53-45fa-84cf-1470f70a6ea9)
 
 
-## Задание 3
-### Настройте на сцене Unity воспроизведение звуковых файлов, описывающих динамику изменения выбранной переменной. Например, если выбрано здоровье главного персонажа вы можете выводить сообщения, связанные с его состоянием.
+Сцена 9: ![image](https://github.com/parallaxD/DA-in-GameDev-lab3/assets/81700733/3e5177c3-7a64-4f23-bfe5-b24f55cfb8f1)
 
-- Была создана новая сцена в Unity3D.
-- Создан пустой GameObject.
-- Создан скрипт, отвечающий за получение данных из таблицы и вопроизведение звуков на основе полученных данных.
 
-Скрипт считывает количество золота, полученное за убийство крипов в период времени. Если кол-во золота >= 5000, то проигрывается звук **"Welcome to the secret shop!"**, как бы приглашая игрока потратить эти деньги. А если кол-во золото в промежутке [2000, 5000), то воспроизводится звук **"Oh, i open all night"**, как бы говоря игроку, что лавка работает всю ночь и у него есть время заработать денег побольше
-
-```C#
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Networking;
-using SimpleJSON;
-
-[RequireComponent(typeof(AudioSource))]
-public class NewBehaviourScript : MonoBehaviour
-{
-    public AudioClip goodSpeak;
-    public AudioClip badSpeak;
-    private AudioSource selectAudio;
-    private List<int> goldsForCreeps = new List<int>();
-    private bool statusStart = false;
-    private int i = 0;
-
-    // Start is called before the first frame update
-    void Awake()
-    {
-        StartCoroutine(GoogleSheets());
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (goldsForCreeps.Count == 0) return;
-        if (i != goldsForCreeps.Count && goldsForCreeps[i] >= 5000 && statusStart == false)
-        {
-            StartCoroutine(PlaySelectAudioGood());
-            print(goldsForCreeps[i]);
-        }
-        if (i != goldsForCreeps.Count && goldsForCreeps[i] >= 2000 && goldsForCreeps[i] < 5000 && statusStart == false)
-        {
-            StartCoroutine(PlaySelectAudioBad());
-            print(goldsForCreeps[i]);
-        }
-    }
-
-    IEnumerator GoogleSheets()
-    {
-        UnityWebRequest curentResp = UnityWebRequest.Get("https://sheets.googleapis.com/v4/spreadsheets/1GqzywPoKKUtoeGm7jLbkuQzhJfh3Y2jnlz49GGimWO0/values/Лист1?key=AIzaSyCW-0saPZJfgfi8BCqL3NcKIlPBGU-zMlo");
-        yield return curentResp.SendWebRequest();
-
-        if (curentResp.result != UnityWebRequest.Result.Success)
-        {
-            Debug.LogError("Network error: " + curentResp.error);
-            yield break;
-        }
-
-        string rawResp = curentResp.downloadHandler.text;
-        var jsonData = JSON.Parse(rawResp);
-
-        if (jsonData["values"] != null)
-        {
-            var values = jsonData["values"].AsArray;
-
-            for (int i = 1; i < values.Count; i++)
-            {
-                var row = values[i].AsArray;
-
-                if (row.Count >= 2 && !string.IsNullOrEmpty(row[1]))
-                {
-                    goldsForCreeps.Add(row[2]);
-                }
-            }
-        }
-    }
-
-    IEnumerator PlaySelectAudioGood()
-    {
-        statusStart = true;
-        selectAudio = GetComponent<AudioSource>();
-        selectAudio.clip = goodSpeak;
-        selectAudio.Play();
-        yield return new WaitForSeconds(3);
-        statusStart = false;
-        i++;
-    }
-    IEnumerator PlaySelectAudioBad()
-    {
-        statusStart = true;
-        selectAudio = GetComponent<AudioSource>();
-        selectAudio.clip = badSpeak;
-        selectAudio.Play();
-        yield return new WaitForSeconds(3);
-        statusStart = false;
-        i++;
-    }
-}
-
-```
-
-https://github.com/parallaxD/DA-in-GameDev-lab2/assets/81700733/00190034-2d63-4b7f-bb01-349111034e0b
-
+Ссылка на репозиторий с проектом: https://github.com/parallaxD/DragonPickerForLab3.git
 
 
 ## Выводы
 
-В ходе выполнения работы были изучена роль золота в игре DOTA2, способы его получения и траты. Был написан скрипт, симулирующий роль золота в игре и заносящий данные в таблицу. Затем, с помощью скрипта и в зависимости от данных, на сцене Unity проигрывается один из звуков.
+В ходе работы я изучил исходный код проекта DragonPicker и определил, какие параметры влияют на сложность игры. Кроме того, я сделал 10 сцен в Unity и изменял эти параметры (в т.ч добавленные мной) для изменения сложности игры.
 
-В результате работы, я научился записывать на python механику / логику изменения игровой переменной, передавать результаты в таблицу и использовать эти данные в Unity.
+В итоге, первый уровень игры довольно прост, а последний по сравнению с ним довольно сложен. Таким образом, сложность игры равномерно растёт по ходу прохождения уровней.
 
 | Plugin | README |
 | ------ | ------ |
