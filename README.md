@@ -101,7 +101,7 @@ Cцены:
 
 
 
-Ссылка на репозиторий с проектом: https://github.com/parallaxD/DragonPickerForLab3.git
+Ссылка на репозиторий с проектом: [https://github.com/parallaxD/DragonPickerForLab3.git](https://github.com/parallaxD/DragonPickerLab3.git)
 
 
 ## Выводы
