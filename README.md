@@ -88,95 +88,10 @@ Cцены:
 
 
 ## Задание 2
-### С помощью скрипта на языке Python заполните google-таблицу данными, описывающими выбранную игровую переменную в выбранной игре (в качестве таких переменных может выступать игровая валюта, ресурсы, здоровье и т.д.). Средствами google-sheets визуализируйте данные в google-таблице (постройте график, диаграмму и пр.) для наглядного представления выбранной игровой величины.
+### Создайте 10 сцен на Unity с изменяющимся уровнем сложности.
 
-С помощью скрипта происходит примитивная симуляция добычи и траты золото игроком.
-Ведется учёт получение денег из следующих источников:
-Минута игры,
-Пассивное золото за период,
-Золото за крипов,
-Золото за героев,
-Всего золота в кармане.
+Были сделаны 10 сцены проекта, в каждой из которых используются разные значения параметров.
 
-Также симулируется трата золота игроком на покупку предметов. 
-
-Данные заносятся в таблицу. На их основе строится диаграмма, на которой наглядно видно, из какого источника игрок получает наибольшее конличество золота.
-
-```python
-
-import gspread
-import numpy as np
-import random
-
-def calculate_gold(enemy_level, killing_streak):
-    return 125 + (enemy_level * 8) + killing_streak
-
-
-gc = gspread.service_account(filename='unitydatascience-400808-d2c1489cd6ba.json')
-sh = gc.open("UnityDataScience")
-
-game_times = [0, 12, 30, 45, 62, 87, 112, 140, 175]
-golds = [90, 94.8, 99.8, 105.5, 112.8, 120.5, 129, 139, 150.5]
-gold_per_streak = {1:0, 2:0, 3:60, 4:100, 5:150, 6:210, 7:280, 8:360, 9:450, 10:550}
-
-cur_gold = 0
-cur_streak = 0
-enemy_networth = 0 # общая ценность противника #
-
-
-sh.sheet1.update(('A') + '1', 'Минута игры')
-sh.sheet1.update(('B') + '1', 'Пассивное золото за период')
-sh.sheet1.update(('C') + '1', 'Золото за крипов')
-sh.sheet1.update(('D') + '1', 'Золото за героев')
-sh.sheet1.update(('E') + '1', 'Золото за предмет(если купил)')
-sh.sheet1.update(('F') + '1', 'Всего золота в кармане')
-
-
-for i in range(2,len(game_times)+1):
-    sh.sheet1.update(('A') + str(i), str(game_times[i-1]), value_input_option='USER_ENTERED')
-for i in range(0, len(game_times)-1):
-    gold_per_minute = golds[i] * (game_times[i+1] - game_times[i])
-    cur_gold += gold_per_minute
-    killed_enemy = random.choice([True, False])
-    has_bought_item = random.choice([True, False])
-    
-    gold_for_enemy = 0
-    gold_for_creeps = 0
-    gold_for_item = 0
-
-    if killed_enemy:
-        enemy_level = random.randint(1, 30)
-        enemy_streak = random.randint(1, 10)
-        gold_for_enemy += calculate_gold(enemy_level, gold_per_streak[enemy_streak])
-    cur_gold += gold_for_enemy
-
-    killed_creeps_count = random.randint(80, 150)
-    for j in range(killed_creeps_count):
-        gold_for_creeps += random.randint(38, 53)
-    cur_gold += gold_for_creeps
-    
-    if has_bought_item:
-        gold_for_item = random.randint(2000,6000)
-        if gold_for_item < cur_gold:
-            cur_gold -= gold_for_item
-        else: has_bought_item = False
-
-    has_died = random.choice([True, False])
-    if has_died:
-        cur_gold -= cur_gold / 40
-    sh.sheet1.update(('B') + str(i+2), str(round(gold_per_minute)), value_input_option='USER_ENTERED')
-    sh.sheet1.update(('C') + str(i+2), str(gold_for_creeps), value_input_option='USER_ENTERED')
-    sh.sheet1.update(('D') + str(i+2), str(gold_for_enemy), value_input_option='USER_ENTERED')
-    sh.sheet1.update(('E') + str(i+2), str(-gold_for_item), value_input_option='USER_ENTERED')
-    sh.sheet1.update(('F') + str(i+2), str(round(cur_gold)), value_input_option='USER_ENTERED')
-
-```
-
-
-![image](https://github.com/parallaxD/DA-in-GameDev-lab2/assets/81700733/b8943c20-1577-4a4b-86e7-c8143e3b84e7)
-
-
-https://github.com/parallaxD/DA-in-GameDev-lab2/assets/81700733/2d5b77c5-e4be-466a-b029-d95435fb23a7
 
 
 ## Задание 3
