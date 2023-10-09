@@ -93,10 +93,12 @@ Cцены:
 
 Были сделаны 10 сцены проекта, в каждой из которых используются разные значения параметров.
 
-Сцена 3: ![image](https://github.com/parallaxD/DA-in-GameDev-lab3/assets/81700733/2354459e-ac53-45fa-84cf-1470f70a6ea9)
+Сцена 3: ![image](https://github.com/parallaxD/DA-in-GameDev-lab3/assets/81700733/d091dd6e-d42c-4f77-9ad1-28395e5af9cb)
 
 
-Сцена 9: ![image](https://github.com/parallaxD/DA-in-GameDev-lab3/assets/81700733/3e5177c3-7a64-4f23-bfe5-b24f55cfb8f1)
+
+Сцена 10: ![image](https://github.com/parallaxD/DA-in-GameDev-lab3/assets/81700733/0081d305-4e24-4eeb-a383-a9a43509d427)
+
 
 
 Ссылка на репозиторий с проектом: https://github.com/parallaxD/DragonPickerForLab3.git
